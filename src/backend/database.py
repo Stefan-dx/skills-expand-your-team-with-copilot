@@ -11,6 +11,11 @@ db = client['mergington_high']
 activities_collection = db['activities']
 teachers_collection = db['teachers']
 
+# Visitor Management collections
+visitors_collection = db['visitors']
+passes_collection = db['passes']
+checkinout_collection = db['checkinout']
+
 # Methods
 def hash_password(password):
     """Hash password using Argon2"""
@@ -29,6 +34,11 @@ def init_database():
     if teachers_collection.count_documents({}) == 0:
         for teacher in initial_teachers:
             teachers_collection.insert_one({"_id": teacher["username"], **teacher})
+    
+    # Initialize sample passes for visitor management if empty
+    if passes_collection.count_documents({}) == 0:
+        for pass_data in initial_passes:
+            passes_collection.insert_one(pass_data)
 
 # Initial database if empty
 initial_activities = {
@@ -186,4 +196,66 @@ initial_teachers = [
         "role": "admin"
     }
 ]
+
+# Initial passes for visitor management
+from datetime import datetime
+
+initial_passes = [
+    {
+        "_id": "BLANK-001",
+        "pass_id": "BLANK-001",
+        "pass_type": "blank",
+        "nfc_id": "04:1A:2B:3C:4D:5E",
+        "qr_code": "VIS-BLANK-001",
+        "is_assigned": False,
+        "is_active": True,
+        "created_at": datetime.now(),
+        "updated_at": datetime.now()
+    },
+    {
+        "_id": "BLANK-002",
+        "pass_id": "BLANK-002",
+        "pass_type": "blank",
+        "nfc_id": "04:2B:3C:4D:5E:6F",
+        "qr_code": "VIS-BLANK-002",
+        "is_assigned": False,
+        "is_active": True,
+        "created_at": datetime.now(),
+        "updated_at": datetime.now()
+    },
+    {
+        "_id": "BLANK-003",
+        "pass_id": "BLANK-003",
+        "pass_type": "blank",
+        "nfc_id": "04:3C:4D:5E:6F:7A",
+        "qr_code": "VIS-BLANK-003",
+        "is_assigned": False,
+        "is_active": True,
+        "created_at": datetime.now(),
+        "updated_at": datetime.now()
+    },
+    {
+        "_id": "LONGTERM-001",
+        "pass_id": "LONGTERM-001",
+        "pass_type": "longterm",
+        "nfc_id": "04:5E:A2:3A:1B:80",
+        "qr_code": "VIS-LT-001",
+        "is_assigned": False,
+        "is_active": True,
+        "created_at": datetime.now(),
+        "updated_at": datetime.now()
+    },
+    {
+        "_id": "LONGTERM-002",
+        "pass_id": "LONGTERM-002",
+        "pass_type": "longterm",
+        "nfc_id": "04:6F:B3:4B:2C:91",
+        "qr_code": "VIS-LT-002",
+        "is_assigned": False,
+        "is_active": True,
+        "created_at": datetime.now(),
+        "updated_at": datetime.now()
+    }
+]
+
 
