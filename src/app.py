@@ -33,3 +33,6 @@ def root():
 # Include routers
 app.include_router(routers.activities.router)
 app.include_router(routers.auth.router)
+app.include_router(routers.visitors.router)
+app.include_router(routers.passes.router)
+app.include_router(routers.checkinout.router)
